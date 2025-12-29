@@ -5,6 +5,11 @@ __pycache__/
 *.so
 .Python
 
+# Odoo specific cache
+**/__pycache__/
+*.pyc
+*.pyo
+
 # Odoo
 *.pyc
 *.pyo
