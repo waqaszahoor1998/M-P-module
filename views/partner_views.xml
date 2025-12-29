@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_mp" model="ir.ui.view">
+        <field name="name">res.partner.form.mp</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                
+                    <group string="M and P Information">
+                        <field name="distribution_channel"/>
+                        <field name="mp_partner_code"/>
+                        <field name="mp_customer_type"/>
+                        <field name="territory_id"/>
+                        <field name="region_id"/>
+                        <field name="parent_partner_id"/>
+                    </group>
+                    <group string="Credit and Payment">
+                        <field name="mp_credit_limit"/>
+                        <field name="mp_payment_terms_id"/>
+                    </group>
+                
+                <group string="Integration" invisible="not external_system_id">
+                    <field name="external_system_id" readonly="True"/>
+                    <field name="last_sync_date" readonly="True"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mp_territory_tree" model="ir.ui.view">
+        <field name="name">mp.territory.tree</field>
+        <field name="model">mp.territory</field>
+        <field name="arch" type="xml">
+            <list string="Territories">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="region_id"/>
+                <field name="manager_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_territory_form" model="ir.ui.view">
+        <field name="name">mp.territory.form</field>
+        <field name="model">mp.territory</field>
+        <field name="arch" type="xml">
+            <form string="Territory">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="region_id"/>
+                            <field name="manager_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Partners">
+                            <field name="partner_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mp_region_tree" model="ir.ui.view">
+        <field name="name">mp.region.tree</field>
+        <field name="model">mp.region</field>
+        <field name="arch" type="xml">
+            <list string="Regions">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="region_type"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_region_form" model="ir.ui.view">
+        <field name="name">mp.region.form</field>
+        <field name="model">mp.region</field>
+        <field name="arch" type="xml">
+            <form string="Region">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="region_type"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Territories">
+                            <field name="territory_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="manager_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Warehouses">
+                            <field name="warehouse_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="mp_warehouse_code"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+

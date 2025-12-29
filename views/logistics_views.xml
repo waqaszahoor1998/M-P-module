@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mp_logistics_operation_tree" model="ir.ui.view">
+        <field name="name">mp.logistics.operation.tree</field>
+        <field name="model">mp.logistics.operation</field>
+        <field name="arch" type="xml">
+            <list string="Logistics Operations" decoration-info="state=='draft'" decoration-warning="state=='in_transit'" decoration-success="state=='delivered'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="operation_type"/>
+                <field name="state"/>
+                <field name="carrier_id"/>
+                <field name="tracking_number"/>
+                <field name="origin_warehouse_id"/>
+                <field name="destination_warehouse_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_logistics_operation_form" model="ir.ui.view">
+        <field name="name">mp.logistics.operation.form</field>
+        <field name="model">mp.logistics.operation</field>
+        <field name="arch" type="xml">
+            <form string="Logistics Operation">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_deliver" string="Mark as Delivered" type="object" invisible="state != 'in_transit'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ['draft', 'in_transit']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_transit,delivered"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="operation_type"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="carrier_id"/>
+                            <field name="tracking_number"/>
+                            <field name="tracking_url"/>
+                            <field name="estimated_delivery_date"/>
+                            <field name="actual_delivery_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="origin_location_id"/>
+                            <field name="origin_warehouse_id"/>
+                        </group>
+                        <group>
+                            <field name="destination_location_id"/>
+                            <field name="destination_warehouse_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Related Records">
+                            <group>
+                                <field name="sale_order_id"/>
+                                <field name="purchase_order_id"/>
+                                <field name="picking_id"/>
+                            </group>
+                        </page>
+                        <page string="Operation Lines">
+                            <field name="operation_line_ids">
+                                <list>
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="quantity_delivered"/>
+                                    <field name="quantity_returned"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Reverse Logistics" invisible="operation_type!='return'">
+                            <group>
+                                <field name="return_reason"/>
+                                <field name="return_authorization"/>
+                            </group>
+                        </page>
+                        <page string="Spare Parts" invisible="not is_spare_part">
+                            <field name="spare_part_lifecycle_stage"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Add notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mp_spare_part_tree" model="ir.ui.view">
+        <field name="name">mp.spare.part.tree</field>
+        <field name="model">mp.spare.part</field>
+        <field name="arch" type="xml">
+            <list string="Spare Parts" decoration-info="lifecycle_stage=='new'" decoration-warning="lifecycle_stage=='repair'">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="serial_number"/>
+                <field name="lifecycle_stage"/>
+                <field name="current_location_id"/>
+                <field name="warehouse_id"/>
+                <field name="assigned_to_partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_spare_part_form" model="ir.ui.view">
+        <field name="name">mp.spare.part.form</field>
+        <field name="model">mp.spare.part</field>
+        <field name="arch" type="xml">
+            <form string="Spare Part">
+                <header>
+                    <field name="lifecycle_stage" widget="statusbar" statusbar_visible="new,in_use,repair,refurbished"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="serial_number"/>
+                            <field name="lifecycle_stage"/>
+                        </group>
+                        <group>
+                            <field name="current_location_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="assigned_to_partner_id"/>
+                            <field name="assigned_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Repair History">
+                            <field name="repair_order_id"/>
+                            <field name="repair_count"/>
+                            <field name="last_repair_date"/>
+                            <field name="operation_line_ids">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="quantity"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mp_repair_order_tree" model="ir.ui.view">
+        <field name="name">mp.repair.order.tree</field>
+        <field name="model">mp.repair.order</field>
+        <field name="arch" type="xml">
+            <list string="Repair Orders" decoration-info="state=='draft'" decoration-warning="state=='in_progress'" decoration-success="state=='completed'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="spare_part_id"/>
+                <field name="state"/>
+                <field name="technician_id"/>
+                <field name="repair_cost"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_repair_order_form" model="ir.ui.view">
+        <field name="name">mp.repair.order.form</field>
+        <field name="model">mp.repair.order</field>
+        <field name="arch" type="xml">
+            <form string="Repair Order">
+                <header>
+                    <button name="action_complete" string="Complete" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="spare_part_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="technician_id"/>
+                            <field name="completion_date"/>
+                            <field name="repair_cost"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="issue_description" placeholder="Describe the issue..."/>
+                    </group>
+                    <group>
+                        <field name="repair_description" placeholder="Describe the repair work..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+</odoo>
+

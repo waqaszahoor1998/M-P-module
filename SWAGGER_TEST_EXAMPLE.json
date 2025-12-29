@@ -1,0 +1,23 @@
+{
+  "username": "MYRABANO_43m309",
+  "password": "M&p12345",
+  "consigneeName": "Ahmed Ali",
+  "consigneeAddress": "House 123, Block A, Gulshan-e-Iqbal",
+  "consigneeMobNo": "03001234567",
+  "consigneeEmail": "ahmed.ali@example.com",
+  "destinationCityName": "KARACHI",
+  "pieces": 1,
+  "weight": 2,
+  "codAmount": 5000,
+  "custRefNo": "TEST-2025-001",
+  "productDetails": "Test Product - Electronics",
+  "fragile": "No",
+  "service": "S",
+  "remarks": "Handle with care",
+  "insuranceValue": "0",
+  "locationID": "",
+  "AccountNo": "MYRABANO_43m309",
+  "InsertType": 0,
+  "subAccountId": 0
+}
+

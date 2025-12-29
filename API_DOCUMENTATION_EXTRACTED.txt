@@ -1,0 +1,1360 @@
+
+--- PAGE 1 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  1 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+COD API MANUAL  
+API INTEGRATION OF COD SHIPMENTS BOOKINGS  
+  
+
+
+--- PAGE 2 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  2 
+ Contents  
+BOOK A SHIPMENT  ................................ ................................ ................................ ................................  3 
+Method  ................................ ................................ ................................ ................................ ......................  3 
+Parameters  ................................ ................................ ................................ ................................ .............  3 
+BULK BOOKING  ................................ ................................ ................................ ................................ .......  6 
+Method:  ................................ ................................ ................................ ................................ .....................  6 
+Parameters:  ................................ ................................ ................................ ................................ ............  6 
+LOADSHEET  ................................ ................................ ................................ ................................ ............  10 
+Method : ................................ ................................ ................................ ................................ ...................  10 
+Parameters  ................................ ................................ ................................ ................................ ...........  10 
+VOID CONSINGMENTS  ................................ ................................ ................................ ........................  11 
+Method : ................................ ................................ ................................ ................................ ...................  11 
+Parameters  ................................ ................................ ................................ ................................ ...........  11 
+BRANCHES  ................................ ................................ ................................ ................................ ..............  12 
+Method : ................................ ................................ ................................ ................................ ...................  12 
+Parameters  ................................ ................................ ................................ ................................ ...........  12 
+LOCATION  ................................ ................................ ................................ ................................ ...............  17 
+Method : ................................ ................................ ................................ ................................ ...................  17 
+Parameters  ................................ ................................ ................................ ................................ ...........  17 
+TRACKING ................................ ................................ ................................ ................................ ...............  18 
+I. CONSIGNEMENT_TRAKING_LOCATION  ................................ ................................ ...............  18 
+Method : ................................ ................................ ................................ ................................ ...................  18 
+Parameters  ................................ ................................ ................................ ................................ ...........  18 
+II. CONSIGNEMENT_TRACKING  ................................ ................................ ................................ .. 21 
+Method : ................................ ................................ ................................ ................................ ...................  21 
+Parameters  ................................ ................................ ................................ ................................ ...........  21 
+QSR REPORT  ................................ ................................ ................................ ................................ ...........  24 
+Method : ................................ ................................ ................................ ................................ ...................  24 
+Parame ters ................................ ................................ ................................ ................................ ...........  24 
+BOOKING SUMMARY REPORT  ................................ ................................ ................................ .........  26 
+Method : ................................ ................................ ................................ ................................ ...................  26 
+Parameters  ................................ ................................ ................................ ................................ ...........  26 
+ 
+
+--- PAGE 3 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  3 
+  
+BOOK A SHIPMENT  
+Method  
+POST  
+http://mnpcourier.com/mycodapi/api/Booking/InsertBookingData  
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+3 consigneeName  Name of the receiver to 
+whom the shipment will 
+be delivered  Mandatory  Character limit: 100  string  Shaheer  
+4 consigneeAddress  Address where the 
+shipment will be 
+delivered  Mandatory  Character limit: 200  string  Clifton 
+Karachi, 
+Pakistan  
+5 consigneeMobNo  Mobile number of the 
+receiver  Mandatory  The phone number is 
+bound on this format 
+i.e. 03001234567  string  03323699569
+  
+6 consigneeEmail  Email address of the 
+coordinator for pickup  Optional   string  shaheer.sohail
+@mulphilog.c
+om 
+7 destinationCityNa
+me String name  of the city 
+from where the  
+shipment will be delivered  Mandatory  Destination City name  
+can be viewed  
+from Get_Cities  API  
+4 is for Karachi  string  Karachi  
+8 pieces  Number of pieces / item(s)  Mandatory  Do not use commas 
+or dots for this 
+parameter  integer  2 
+9 weight  weight of the shipment  Mandatory  Please note that this 
+will not be the final 
+weight of the 
+shipment and no 
+charges will be 
+calculated based on 
+this value. Kg would 
+be the scale of 
+weight measured in.  float  5.5 
+
+--- PAGE 4 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  4 
+ 10 codAmount  The amount to be collected at 
+the time of delivery  Mandatory  Do not use commas 
+or dots for this 
+parameter  float  100 
+11 custRefNo  Shipper's own reference ID  Mandatory  It must be unique for 
+one shipper.  
+ 
+Character limit: 100  string  T-786 
+12 productDetails  Nature and details of the 
+item(s) in the order to be 
+delivered  Mandatory  Character limit: 600  string  one White t 
+shirt medium  
+13 fragile  Is the item fragile/Sensitive?  Mandatory  Yes or No  String  Yes 
+14 Service  Courier Service you want to 
+use to deliver item.  Mandatory  This would be 
+depending service 
+type agreed on your 
+contract with sale 
+representative. It can 
+be overnight or 
+second day  string  “Overnight” 
+OR “O”  
+“Second Day” 
+or “S”  
+15 Remarks  Any reference or remarks 
+regarding the delivery  Optional   string  Please call 
+before 
+delivery  
+16 InsuranceValue  Insurance value is insured  Mandatory  0 in case no insurance 
+or amount if insured  String  0 
+17 locationID  Location ID given by us. 
+Location ID can also be 
+tracked from Get_location 
+API.  Optional  This parameter will 
+be only valid for user 
+who have multi 
+location pickup 
+options.  
+For users who have 
+single pickup location 
+can avoid sending this 
+parameter or 
+parame ter can be 
+removed on sending 
+JSON Object.  String  04 
+18 AccountNo  Provided by us  Optional  There is no 
+requirement of 
+sending of account 
+number. It can be sent 
+null or parameter can 
+be removed on 
+sending JSON Object.  String  4T154  
+ 
+JSON Object Example:  
+{ 
+  "username": "Test_User",  
+  "password": "12345",  
+  "consigneeName": "Shaheer",  
+
+--- PAGE 5 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  5 
+   "consigneeAddress": "Clifton Karachi, Pakistan",  
+  "consigneeMobNo": "03323699569",  
+  "consigneeEmail": "shaheer.sohail@mulphilog.com",  
+  "destinationCityName": "Karachi",  
+  "pieces": 2,  
+  "weight": 5.5,  
+  "codAmount": 100,  
+  "custRefNo": "T -786",  
+  "productDetails": "one White t shirt medium",  
+  "fragile":  "Yes",  
+  "service": "O",  
+  "remarks": "Please call before delivery",  
+  "insuranceValue": "0"  
+} 
+ 
+Result  
+[ 
+  { 
+    "isSuccess ": "true" , 
+    "message ": "Order  saved  successfully!" , 
+    "orderReferenceId ": "544794010000038"  
+  } 
+] 
+  
+
+--- PAGE 6 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  6 
+ BULK BOOKING  
+Method:  
+ 
+POST  
+http://mnpcourier.com/mycodapi/api/Booking/InsertBulkBookingData  
+ 
+ 
+Parameters:  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+3 consigneeName  Name of the receiver to 
+whom the shipment will 
+be delivered  Mandatory  Character limit: 100  string  Shaheer  
+4 consigneeAddress  Address where the 
+shipment will be 
+delivered  Mandatory  Character limit: 200  string  Clifton 
+Karachi, 
+Pakistan  
+5 consigneeMobNo  Mobile number of the 
+receiver  Mandatory  The phone number is 
+bound on this format 
+i.e. 03001234567  string  03323699569
+  
+6 consigneeEmail  Email address of the 
+coordinator for pickup  Optional   string  shaheer.sohail
+@mulphilog.c
+om 
+7 destinationCityNa
+me String name of the city 
+from where the  
+shipment will be delivered  Mandatory  Destination City name 
+can be viewed  
+from Get_Cities  API  
+4 is for Karachi  string  Karachi  
+8 pieces  Number of pieces / item(s)  Mandatory  Do not use commas 
+or dots for this 
+parameter  integer  2 
+9 weight  weight of the shipment  Mandatory  Please note that this 
+will not be the final 
+weight of the 
+shipment and no 
+charges will be 
+calculated based on 
+this value. Kg would 
+be the scale of 
+weight measured in.  float  5.5 
+
+--- PAGE 7 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  7 
+ 10 codAmount  The amount to be collected at 
+the time of delivery  Mandatory  Do not use commas 
+or dots for this 
+parameter  float  100 
+11 custRefNo  Shipper's own reference ID  Mandatory  It must be unique for 
+one shipper.  
+ 
+Character limit: 100  string  5959 & 7979  
+12 productDetails  Nature and details of the 
+item(s) in the order to be 
+delivered  Mandatory  Character limit: 600  string  one White t 
+shirt medium  
+13 fragile  Is the item fragile/Sensitive?  Mandatory  Yes or No  String  Yes 
+14 Service  Courier Service you want to 
+use to deliver item.  Mandatory  This would be 
+depending service 
+type agreed on your 
+contract with sale 
+representative. It can 
+be overnight or 
+second day  string  “Overnight” 
+OR “O”  
+“Second Day” 
+or “S”  
+15 Remarks  Any reference or remarks 
+regarding the delivery  Optional   string  Please call 
+before 
+delivery  
+16 InsuranceValue  Insurance value is insured  Mandatory  0 in case no insurance 
+or amount if insured  String  0 
+ 
+JSON Object Example:  
+ 
+{ 
+  "username": "Test_user",  
+  "password": "12345",  
+  "BulkConsignmentList": [  
+    { 
+      "consigneeName": "Shaheer",  
+      "consigneeAddress": "Clifton",  
+      "consigneeMobNo": "03482620984",  
+      "consigneeEmail": "nabeel.ahmed@mulphilog.com",  
+      "destinationCityName": "Karach i", 
+      "pieces": 1,  
+      "weight": 0.5,  
+
+--- PAGE 8 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  8 
+ 
+      "codAmount": 1,  
+      "custRefNo": "5959",  
+      "productDetails": "shirts",  
+      "fragile": "yes",  
+      "service": "o",  
+      "remarks": "call before delivery",  
+      "insuranceValue": "0"  
+    }, 
+ { 
+      "consigneeName": "Shaheer",  
+      "consigneeAddress": "Clifton",  
+      "consigneeMobNo": "03482620984",  
+      "consigneeEmail": "nabeel.ahmed@mulphilog.com",  
+      "destinationCityName": "Karachi",  
+      "pieces": 1,  
+      "weight": 0.5,  
+      "codAmount ": 1, 
+      "custRefNo": "7979",  
+      "productDetails": "shirts",  
+      "fragile": "yes",  
+      "service": "o",  
+      "remarks": "call before delivery",  
+      "insuranceValue": "0"  
+    } 
+  ] 
+} 
+ 
+ 
+
+--- PAGE 9 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  9 
+ Result  
+[ 
+  { 
+    "isSuccess ": true, 
+    "message ": "Success; Details can be seen in OrderReferenceList" , 
+    "orderReferenceIdList ": [ 
+      { 
+        "orderRefNum ": "5959" , 
+        "success ": true, 
+        "message ": "544794010000042"  
+      }, 
+      { 
+        "orderRefNum ": "7979" , 
+        "success ": true, 
+        "message ": "544794010000043"  
+      } 
+    ] 
+  } 
+] 
+ 
+ 
+NOTE: only 49 bookings allowed for bulk loading at a time.  
+  
+
+--- PAGE 10 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  10 
+ LOADSHEET  
+Method : 
+POST  
+http://mnpcourier.com/mycodapi/api/Booking/Generate_LoadSheet_Location  
+ 
+ Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for 
+pickup  Optional   email  12345  
+3 locationID  Location ID given 
+by us. Location ID 
+can also be tracked 
+from Get_location 
+API.  Mandatory  Location id which was 
+used at the time of 
+booking consignment 
+will be added here  String  41 
+4 consignmentNumberL
+ist Generated after 
+booking 
+consignment  Mandatory  Consignment 
+generated after 
+booking will be added 
+here to generate load 
+sheet for that 
+shipment  String  54479401000
+0037  
+ 
+JSON Object Example:  
+{ 
+  "Username": "TEST_USER",  
+  "password": "12345",  
+  "consignmentNumberList": [  
+    "544794010000037"  
+  ], 
+  "locationID": " 41" 
+Result  
+[ 
+  { 
+    "isSuccess ": "OK" , 
+    "message ": "Order Updated successfully!" , 
+    "orderReferenceIdList ": [ 
+      "544794010000037:OK"  
+    ] 
+  } 
+]  
+
+--- PAGE 11 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  11 
+ VOID CONSINGMENTS  
+Method : 
+POST  
+http://mnpcourier.com/mycodapi/api/Booking/VoidConsignment  
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+3 locationID  Location ID given by 
+us. Location ID can 
+also be tracked from 
+Get_location API.  Mandatory  Location id which was 
+used at the time of 
+booking consignment 
+will be added here  String  41 
+ 
+4 consignmentNumberL
+ist Generated after 
+booking consignment  Mandatory  Consignment number 
+generated after 
+booking will be added 
+here  String  
+54479401000
+0040  
+ 
+JSON Object Example:  
+ 
+{ 
+  "Username": "Test_user",  
+  "password": "12345",  
+  "consignmentNumberList": [  
+    "544794010000040"  
+  ], 
+  "locationID": " 41" 
+} 
+ 
+Result  
+[ 
+  { 
+    "isSuccess ": true, 
+    "mess age": "Succes, Details in List" , 
+    "orderReferenceIdList ": [ 
+      { 
+        "consignmentNumber ": "544794010000086" , 
+        "success ": true, 
+        "message ": "CN Marked Void"  
+      } 
+    ] 
+  } 
+] 
+
+--- PAGE 12 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  12 
+ 
+NOTE: Multiple Consignments can be voided at the same time; CN can only be voided if 
+load sheet  is not yet generated.  
+BRANCHES  
+ 
+Method : 
+GET  
+http://mnpcourier.com/mycodapi/api/Branches/Get_Cities  
+ 
+Parameters  
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as 
+provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for 
+pickup  Optional   email  12345  
+3 AccountNo  Provided by us  Mandatory  Account no assigned 
+to user by M&P will 
+be used to get a list 
+of associated cities to 
+that particular 
+account  String  4T154 
+ 
+Parameterized query string  
+ 
+ 
+ 
+Result
+ : 
+[ 
+  { 
+    "City": [ 
+      "ABDUL HAKIM /TULAMBA" , 
+      "ABOTTABAD" , 
+      "AHMED PUR EAST" , 
+      "ALI PUR" , 
+      "ALI PUR CHATTA" , 
+      "ARIF WALA" , 
+
+
+--- PAGE 13 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  13 
+       "ATTOCK" , 
+      "BADIN" , 
+      "BAGH (AJK)" , 
+      "BANU" , 
+      "BAT KHELA" , 
+      "BAWALNAGAR" , 
+      "BHAI P HERU" , 
+      "BHAKKAR" , 
+      "BHALWAL" , 
+      "BHAWALPUR" , 
+      "BUREWALA" , 
+      "CHAKWAL" , 
+      "CHAMAN" , 
+      "CHARSADA" , 
+      "CHICHAWATNI" , 
+      "CHINNIOT" , 
+      "CHISTIAN" , 
+      "CHITRAL" , 
+      "D.G. KHAN" , 
+      "D.I. KHAN" , 
+      "DADU" , 
+      "DADYAL (AJK)" , 
+      "DARA ADAM KHEL" , 
+      "DARGAI" , 
+      "DASKA" , 
+      "DAUD KHEL" , 
+      "DEHARKI" , 
+      "DEPALPUR" , 
+      "DERA ALLAH YAR" , 
+      "DERA MURAD JAMALI" , 
+      "DINA" , 
+      "DIR" , 
+      "DUKI" , 
+      "DUNYA PUR" , 
+      "FAISALABAD" , 
+      "FATEH JANG" , 
+      "FORT ABBAS" , 
+      "GADON" , 
+      "GAMBAT" , 
+      "GARHI YASEEN" , 
+      "GHAZI" , 
+      "GHOTKI" , 
+      "GILGIT" , 
+      "GOJRA" , 
+      "GUDDU" , 
+      "GUJAR KHAN" , 
+      "GUJRANWALA" , 
+      "GUJRAT" , 
+      "GWADAR" , 
+      "HAFIZABAD" , 
+      "HALA" , 
+      "HARI PUR" , 
+      "HAROON ABAD" , 
+      "HASIL PUR" , 
+      "HASSAN ABDAL" , 
+
+--- PAGE 14 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  14 
+       "HATTAR" , 
+      "HAVELIAN" , 
+      "HUB" , 
+      "HYDERABAD" , 
+      "ISLAMABAD" , 
+      "ISSA KHEL" , 
+      "JACOB ABAD" , 
+      "JAHANIAN" , 
+      "JALALPUR JATTAN" , 
+      "JAM PUR" , 
+      "JARANWALA" , 
+      "JEHLUM" , 
+      "JHANG" , 
+      "JHAT PAT" , 
+      "JOHARABAD" , 
+      "KABIR WALA" , 
+      "KAHROR PACCA" , 
+      "KALAT" , 
+      "KAMALIA" , 
+      "KAMBER ALI KHAN" , 
+      "KAM OKE" , 
+      "KAMRA" , 
+      "KANDH KOT" , 
+      "KANDIARO" , 
+      "KARACHI" , 
+      "KARAK" , 
+      "KASHMORE" , 
+      "KASUR" , 
+      "KHAIRPUR" , 
+      "KHAIRPUR NATHAN SHAH" , 
+      "KHANEWAL" , 
+      "KHANPUR" , 
+      "KHARIAN" , 
+      "KHIPRO" , 
+      "KHURIAN WALA" , 
+      "KHUSHAB" , 
+      "KHUZDAR" , 
+      "KILLA SAIFULLAH" , 
+      "KOHAT" , 
+      "KOT ADDU" , 
+      "KOTLI (AJK)" , 
+      "LAHORE" , 
+      "LALA MUSA" , 
+      "LALIAN" , 
+      "LARKANA" , 
+      "LAYYAH" , 
+      "LIAQATPUR" , 
+      "LODHRAN" , 
+      "MAILSI" , 
+      "MAINGARI" , 
+      "MANDI BAHAUDDIN" , 
+      "MANGLA" , 
+      "MANGORA" , 
+      "MANSEHRA" , 
+      "MARDAN" , 
+
+--- PAGE 15 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  15 
+       "MATLI" , 
+      "MEHAR" , 
+      "MEHMOOD KOT" , 
+      "MEHRABPUR" , 
+      "MIAN WALI" , 
+      "MIANCHANNU" , 
+      "MIR PUR A.K." , 
+      "MIRPIR KHAS" , 
+      "MIRPUR MATHELO" , 
+      "MITHI" , 
+      "MORO" , 
+      "MULTAN" , 
+      "MUREE" , 
+      "MURIDKE" , 
+      "MUZAFARABAD" , 
+      "MUZAFFAR GARH" , 
+      "NANKANA SAHIB" , 
+      "NAROWAL" , 
+      "NAUDERO" , 
+      "NAWAB SHAH" , 
+      "NOSHEHRO FEROZ" , 
+      "NOWSHERA" , 
+      "OKARA" , 
+      "OSTA MOHAMMAD" , 
+      "PAKPATTAN" , 
+      "PANO AQIL" , 
+      "PASROOR" , 
+      "PATTOKI" , 
+      "PESHAWAR" , 
+      "PHALIA" , 
+      "PIND DADAN KHAN" , 
+      "PIR MAHAL" , 
+      "PISHIN" , 
+      "QILA DEEDAR SINGH" , 
+      "QUETTA" , 
+      "RABWAH" , 
+      "RAHIM YAR KHAN" , 
+      "RAIWIND" , 
+      "RAJANPUR" , 
+      "RANI PUR" , 
+      "RATO DERO" , 
+      "RAWALAKOT (AJK)" , 
+      "RAWALPINDI" , 
+      "RENALA KHURD" , 
+      "SADIQABAD" , 
+      "SAHIWAL" , 
+      "SAJ AWAL" , 
+      "SAKRAND" , 
+      "SAMBRIAL" , 
+      "SAMUNDRI" , 
+      "SANGHAR" , 
+      "SANGLA HILL" , 
+      "SARGODAH" , 
+      "SEHWAN SHARIF" , 
+      "SHAH KOT" , 
+
+--- PAGE 16 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  16 
+       "SHAHDAD KOT" , 
+      "SHAHDADPUR" , 
+      "SHIEKHUPURA" , 
+      "SHIKARPUR" , 
+      "SHOR KOT" , 
+      "SHUJA ABAD" , 
+      "SIALKOT" , 
+      "SIBI" , 
+      "SUKKUR" , 
+      "SWAT (MINGORA CITY)" , 
+      "TALAGANG" , 
+      "TANDO ADAM" , 
+      "TANDO ALLAYAR" , 
+      "TANDO JAM" , 
+      "TANDO JAN MUHAMMAD" , 
+      "TANDO M KHAN" , 
+      "TAUNSA SHARIF" , 
+      "TAXILA" , 
+      "THATTA" , 
+      "TIMERGERA" , 
+      "TOBA TEK SINGH" , 
+      "TOPI" , 
+      "UBARO" , 
+      "UMER KOT" , 
+      "VEHARI" , 
+      "WAH CANTT" , 
+      "WAZIRABAD" , 
+      "YAZMAN MANDI" , 
+      "ZAFAR WAL"  
+    ] 
+  } 
+] 
+  
+
+--- PAGE 17 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  17 
+ LOCATION  
+ 
+Method : 
+GET  
+http://mnpcourier.com/mycodapi/api/Locations/Get_locations  
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+18 AccountNo  Provided by us  Mandatory  Account no assigned 
+to user by M&P will 
+be used to get a list of 
+associated location 
+points and their 
+location i.ds  String  4T154  
+ 
+Parameterized  query string  
+ 
+ 
+ 
+ 
+Result  
+{ 
+  "isSucces ": true, 
+  "message ": "Success" , 
+  "locationList ": [ 
+    { 
+      "locationID ": 41, 
+      "locationName ": " TEST Location  ", 
+      "locationAddress ": " 1st Floor Uzma Court Above Aghas Super Market Schon Circle Block 8 Clifton Karachi " 
+    } 
+  ] 
+} 
+  
+
+
+--- PAGE 18 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  18 
+ TRACKING  
+I. CONSIGNEMENT_TRAKING_LOCATION  
+ 
+Method : 
+GET  
+http://mnpcourier.com/mycodapi/api/Tracking/Consignment_Tracking_Location  
+ 
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username 
+should be 
+exactly the same 
+as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+3 locationID  Location ID given by us. 
+Location ID can also be 
+tracked from Get_location 
+API.  Mandatory  Location id which 
+was used at the time 
+of booking 
+consignment will be 
+added here  String  41 
+4 consignment  Generated after booking 
+consignment  Mandatory  Consignment 
+number that user 
+wishes to track will 
+be added here  String  54479401000
+0096  
+ 
+Parameterized  query string  
+ 
+ 
+  
+
+
+--- PAGE 19 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  19 
+ Result:  
+ 
+[ 
+  { 
+    "isSuccess ": "true" , 
+    "message ": "Consignment  Number  Valid" , 
+    "orderReferenceIdList ": [ 
+      ":Succesfull"  
+    ], 
+    "tracking_Details ": [ 
+      { 
+        "BookingDate ": "7/12/2019  4:06:17  PM", 
+        "Destination ": "KARACHI" , 
+        "Origin ": "KARACHI" , 
+        "Shipper ": "TEST  M&P" , 
+        "Consignee ": "Test  For Tracking." , 
+        "ServiceType ": "overnight" , 
+        "CNStatus ": "DELIVERED" , 
+        "CNStatusID ": "55", 
+        "Details ": [ 
+          { 
+            "DateTime ": "7/12/2019  4:03:35  PM", 
+            "Status ": "Booking" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:06:17  PM", 
+            "Status ": "Booking" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:23:08  PM", 
+            "Status ": "Arrival  No :2774445  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on Location  
+:KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:25:07  PM", 
+            "Status ": "Manifest  No :000031511511  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:25:54  PM", 
+            "Status ": "Bag  No: 00015 224688  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on Location  
+:KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:26:57  PM", 
+            "Status ": "Loading  No :190712162604527  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:27:17  PM", 
+
+--- PAGE 20 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  20 
+             "Status ": "UnLoading  No :201900018198  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:27:47  PM", 
+            "Status ": "DeBagging  No: 2017241331   was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:29:37  PM", 
+            "Status ": "DeMa nifest  No: 000031511511  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:30:09  PM", 
+            "Status ": "Runsheet  No :201911669345  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE  against  Rider  :WW02  -MOHAMMAD  KHALID" , 
+            "Location ": "KARACHI"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:32:09  PM", 
+            "Status ": "DELIVERED  Comment:  ", 
+            "Location ": "KARACHI"  
+          } 
+        ] 
+      } 
+    ] 
+  } 
+] 
+  
+
+--- PAGE 21 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  21 
+ II. CONSIGNEMENT_TRACKING  
+Method : 
+GET  
+http://mnpcourier.com/mycodapi/api/Tracking/Consignment_Tracking  
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username 
+should be 
+exactly the same 
+as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   email  12345  
+3 consignment  Generated after booking 
+consignment  Mandatory  Consignment 
+number that user 
+wishes to track will 
+be added here  String  54479401000
+0096  
+ 
+Parameterized query string  
+ 
+ 
+  
+
+
+--- PAGE 22 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  22 
+ Result:  
+ 
+[ 
+  { 
+    "isSuccess ": "true" , 
+    "message ": "Consignment  Number  Valid" , 
+    "orderReferenceIdList ": [ 
+      ":Succesfull"  
+    ], 
+    "tracking_Details ": [ 
+      { 
+        "BookingDate ": "7/12/2019  4:06:17  PM", 
+        "Destination ": "KARACHI" , 
+        "Origin ": "KARACHI" , 
+        "Shipper ": "TEST  M&P" , 
+        "Consignee ": "Test  For Tracking." , 
+        "ServiceType ": "overnight" , 
+        "CNStatus ": "DELIVERED" , 
+        "CNStatusID ": "55", 
+        "pieces ": "1", 
+        "weight ": "0.5" , 
+        "Details ": [ 
+          { 
+            "DateTime ": "7/12/2019  4:03:35  PM", 
+            "Status ": "BOOKING" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Booking"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:06:17  PM", 
+            "Status ": "BOOKING" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Booking"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:23:08  PM", 
+            "Status ": "ARRIVAL" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Arrival  No :2774445  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on Location  
+:KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:25:07  PM", 
+            "Status ": "MANIFESTED" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Manifest  No :000031511511  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:25:54  PM", 
+            "Status ": "BAGGED" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Bag  No: 00015224688  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on Location  
+:KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+
+--- PAGE 23 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  23 
+             "DateTime ": "7/12/2019  4:26:57  PM", 
+            "Status ": "LOADED" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Loading  No :190712162604527  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:27:17  PM", 
+            "Status ": "UNLOAD" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "UnLoading  No :201900018198  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:27:47  PM", 
+            "Status ": "DEBAG" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "DeBagging  No: 2017241331   was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:29:37  PM", 
+            "Status ": "DEMANIFEST" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "DeManifest  No: 000031511511  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KARACHI  MAIN  OFFICE"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:30:09  PM", 
+            "Status ": "RUNSHEET" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "Runsheet  No :201911669345  was Generated  on :12 Jul 2019  by User  :Nabeel  Ahmed  Siddiqui  on 
+Location  :KAR ACHI  MAIN  OFFICE  against  Rider  :WW02  -MOHAMMAD  KHALID"  
+          }, 
+          { 
+            "DateTime ": "7/12/2019  4:32:09  PM", 
+            "Status ": "POD" , 
+            "Location ": "KARACHI" , 
+            "Detail ": "DELIVERED  Comment:  " 
+          } 
+        ] 
+      } 
+    ] 
+  } 
+] 
+  
+
+--- PAGE 24 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  24 
+ QSR REPORT  
+Method : 
+POST  
+http://mnpcourier.com/mycodapi/api/Reports/QSR_Report  
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Email address of the 
+coordinator for pickup  Optional   string  12345  
+3 Month Number  Add the month for 
+which you want to see 
+the report  Mandatory  Any month between 
+1-12 can be added  int 
+ 4 
+4 Year  Add Year of the report 
+you want to see  Mandatory  The year for which 
+the report is required 
+will be added here.  int 
+ 2019  
+5 locationID  Location ID given by 
+us. Location ID can 
+also be tracked from 
+Get_location API.  Mandatory  Location id which was 
+used at the time of 
+booking consignment 
+will be added here  String  41 
+ 
+ 
+ 
+JSON Object Example:  
+ 
+{ 
+  "UserName": "Test_user",  
+  "Password": "12345",  
+  "MonthNumber": 4,  
+  "year": 2019,  
+  "locationID": "41"  
+} 
+  
+
+--- PAGE 25 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  25 
+ Result  
+ 
+[ 
+  { 
+    "isSuccess": true,  
+    "message": "Success",  
+    "AccountNumber": " 4T154 ", 
+    "ClientName": " Test_user ", 
+    "Details": [  
+      { 
+        "consignmentNumber": " 544794010000096 ", 
+        "BookingDate": "2019 -04-02T00:00:00",  
+        "OrgZone": "LHE",  
+        "OrgBranch": "LHE",  
+        "consignee": "Zain Mamda",  
+        "orderRefNo": "6233030",  
+        "SERVICE": "overnight",  
+        "DestZone": "KHI",  
+        "Destination": "KHI",  
+        "WEIGHT": "0.5 ", 
+        "receivedBy": "ZAHID",  
+        "time": "10:40:00",  
+        "deliveryDate": null,  
+        "CODAmount": "1589",  
+        "RRStatus": "D -DELIVERED",  
+        "PaymentMode": "COD",  
+        "Chequeno": " ******** " 
+      } 
+   } 
+] 
+NOTE: 
+ Above mentioned response is just an example, it is just to show the response structure.  
+  
+
+--- PAGE 26 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  26 
+ BOOKING SUMMARY  REPORT  
+Method : 
+POST  
+ 
+http://mnpcourier.com/mycodapi/api/Reports/BookingSummart_Report  
+ 
+Parameters  
+ 
+S.no.  Parameter  Description  Condition  Validation  Format  Sample  
+1 username  Username Provided by us.  Mandatory  Username should 
+be exactly the 
+same as provided.  string  Test_User  
+2 password  Password created for 
+that specific username  Mandatory   string  12345  
+3 Date from  The date from which 
+you wish to see the 
+booing summary   Mandatory  Date needs to be in 
+the given format  DateTi
+me 2019 -06-
+01T07:18:21.0
+65Z 
+4 Date to  The date till which you 
+wish to see the booking 
+summary  Mandatory  Date needs to be in 
+the given format  DateTi
+me 
+"2019 -06-
+30T07:18:21.
+066Z"  
+5 Status  The status of the 
+Consignments for 
+which you wish to see 
+the booking summary  Mandatory  The status can either 
+be 1,2 or 3.  
+1: Loadsheet  
+generated but not 
+arrived at M&P   
+2: Arrived  at M&P  
+3: Void consignment  
+ int 
+ 2 
+6 Destination  Destination point for 
+which you wish to see 
+the booking summary 
+for, if you wish to 
+narrow down your 
+search. This is not 
+mandatory  Optional  Can get id from 
+branch list  int 
+ 4 
+ 
+(for Karachi)  
+7 locationID  Location ID given by 
+us. Location ID can 
+also be tracked from 
+Get_location API.  Optional  Location id which was 
+used at the time of 
+booking consignment 
+will be added here  String  41 
+ 
+8 Consignee  If you want the booking 
+summary for once 
+particular customer, Optional  Consignee name that 
+you put down each 
+time you book a String  Shaheer  
+
+--- PAGE 27 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  27 
+ you can add their name 
+here.  shipment for that 
+particular customer  
+9 Consigneephone  If you wish to narrow 
+down your booking 
+summary through 
+phone number instead 
+of consignee name due 
+to duplications, you can 
+use this option.  Optional  Phone number that you 
+add each time you 
+book a consignment 
+for that particular 
+customer  String  03363113337  
+10 OrderRef  You can narrow down 
+your search to a single 
+customer by adding the 
+reference number you 
+have assigned to that 
+specific customer  Optional  Reference  number that 
+you’ve assigned to the 
+consignee for which 
+you wish to see the 
+booking summary  String  321 
+ 
+JSON Object Example:  
+{ 
+  "UserName": " Test_user ", 
+  "Password": " 12345 ", 
+  "dateFrom": "2019 -06-01T07:18:21.065Z",  
+  "dateTo": "2019 -06-30T07:18:21.066Z",  
+  "status": 2  
+}  
+
+--- PAGE 28 ---
+  COD API MANUAL  
+ 
+  
+M&P COD API Integration  28 
+ Result  
+ 
+[ 
+  { 
+    "isSuccess": true,  
+    "message": "Success",  
+    "Details": [  
+      { 
+        "serial_no": 1,  
+        "consignmentNumber": “123456789123457”,  
+        "bookingDate": "01 -06-2019", 
+        "orderRefNo": "6251766",  
+        "consignee": "Dr kamran  Khan",  
+        "address": "Mail office Rehman Medical Institute phase 5 peshawar ",  
+        "consigneePhoneNo": “03138466444”,  
+        "consignerEmail": "",  
+        "codAmount": "3000",  
+        "productDescription": "Car Accessories",  
+        "weight": "0.5",  
+        "origin": "LAHORE",  
+        "destination": "PESHAWAR",  
+        "remarks": "Contact consignee and deliver ASAP"  
+      }, 
+      { 
+        "serial_no": 2,  
+        "consignmentNumber": " 123456789123456 ", 
+        "bookingDate": "04 -06-2019", 
+        "orderRefNo": "6251543",  
+        "consignee": "Farooq Shahid",  
+        "address": "Muhammad pura main bazar stree#2 house#p109a -FAISALABAD",  
+        "consigneePhoneNo": "03138466333 ", 
+        "consignerEmail": "",  
+        "codAmount": "999",  
+        "productDesc ription": "Car Accessories",  
+        "weight": "0.5",  
+        "origin": "LAHORE",  
+        "destination": "FAISALABAD",  
+        "remarks": "Contact consignee and deliver ASAP"  
+      } 
+    ] 
+  } 
+] 
+ 

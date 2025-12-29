@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend delivery carrier form to add M&P configuration -->
+    <record id="view_delivery_carrier_form_mp" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.mp</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='destination']" position="before">
+                <page string="M and P Configuration" name="mp_configuration" invisible="delivery_type != 'mp_logistics'">
+                    <group>
+                        <group string="API Configuration">
+                            <field name="mp_api_url" string="API URL" 
+                                   placeholder="http://mnpcourier.com/mycodapi (default if empty)" 
+                                   required="0"/>
+                            <field name="mp_api_key" string="M and P Username" 
+                                   placeholder="Username provided by M and P" 
+                                   required="0"/>
+                            <field name="mp_api_secret" string="M and P Password" 
+                                   placeholder="Password for M and P API" 
+                                   required="0"/>
+                            <field name="mp_account_no" string="M and P Account Number (Optional)" 
+                                   placeholder="Leave empty to use username as AccountNo" 
+                                   required="0"/>
+                            <button name="action_test_mp_api_connection" 
+                                    string="Test Connection" 
+                                    type="object" 
+                                    class="btn-primary"
+                                    icon="fa-plug"/>
+                        </group>
+                        <group string="Service Configuration">
+                            <field name="mp_service_type" string="Service Type"/>
+                            <field name="mp_auto_create_operation" string="Auto-create Logistics Operation"/>
+                        </group>
+                        <group string="Shipping Rate Calculation">
+                            <field name="mp_base_fee" string="Base Fee"/>
+                            <field name="mp_price_per_kg" string="Price per kg"/>
+                            <field name="mp_min_weight" string="Min Weight (kg)"/>
+                            <field name="mp_max_weight" string="Max Weight (kg)"/>
+                            <field name="mp_overweight_fee" string="Overweight Fee per kg"/>
+                            <field name="mp_cod_fee_percent" string="COD Fee (%)"/>
+                            <field name="mp_cod_min_fee" string="COD Min Fee"/>
+                        </group>
+                    </group>
+                    <group string="M and P COD API Integration">
+                        <p>
+                            Configure M and P COD API integration. When shipments are sent,
+                            they will be automatically booked with M and P COD API if credentials are provided.
+                        </p>
+                        <ul>
+                            <li><b>API URL:</b> Base URL for M and P COD API (default: https://mnpcourier.com/mycodapi)</li>
+                            <li><b>Username/Password:</b> Credentials provided by M and P for API access</li>
+                            <li><b>Service Type:</b> Select the service level (Overnight or Second Day)</li>
+                            <li><b>Auto-create Operation:</b> Automatically create Logistics Operation when shipping</li>
+                        </ul>
+                        <p>
+                            <b>API Documentation:</b> 
+                            <a href="https://mnpcourier.com/mycodapi/swagger/ui/index#!/" target="_blank">
+                                View M and P COD API Swagger Documentation
+                            </a>
+                        </p>
+                        <p>
+                            <i>Note: If API credentials are not configured, shipments will work in local mode 
+                            with auto-generated tracking numbers.</i>
+                        </p>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

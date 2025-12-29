@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mp_integration_tree" model="ir.ui.view">
+        <field name="name">mp.integration.tree</field>
+        <field name="model">mp.integration</field>
+        <field name="arch" type="xml">
+            <list string="Integrations" decoration-muted="not active">
+                <field name="name"/>
+                <field name="integration_type"/>
+                <field name="active"/>
+                <field name="sync_frequency"/>
+                <field name="last_sync_date"/>
+                <field name="last_sync_status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_integration_form" model="ir.ui.view">
+        <field name="name">mp.integration.form</field>
+        <field name="model">mp.integration</field>
+        <field name="arch" type="xml">
+            <form string="Integration">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
+                    <button name="action_sync_now" string="Sync Now" type="object"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="integration_type"/>
+                            <field name="active"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="sync_frequency"/>
+                            <field name="sync_direction"/>
+                            <field name="timeout"/>
+                        </group>
+                    </group>
+                    <group string="Connection Settings">
+                        <field name="api_url"/>
+                        <field name="api_key" password="True"/>
+                        <field name="api_secret" password="True"/>
+                    </group>
+                    <group string="Sync Status">
+                        <group>
+                            <field name="last_sync_date" readonly="True"/>
+                            <field name="last_sync_status" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="last_sync_message" readonly="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Field Mappings">
+                            <field name="mapping_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="odoo_field"/>
+                                    <field name="external_field"/>
+                                    <field name="field_type"/>
+                                    <field name="default_value"/>
+                                    <field name="required"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sync Logs">
+                            <field name="sync_log_ids">
+                                <list>
+                                    <field name="sync_date"/>
+                                    <field name="status"/>
+                                    <field name="operation_type"/>
+                                    <field name="model_name"/>
+                                    <field name="records_processed"/>
+                                    <field name="records_failed"/>
+                                    <field name="message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mp_integration_log_tree" model="ir.ui.view">
+        <field name="name">mp.integration.log.tree</field>
+        <field name="model">mp.integration.log</field>
+        <field name="arch" type="xml">
+            <list string="Integration Logs" decoration-success="status=='success'" decoration-danger="status=='failed'">
+                <field name="integration_id"/>
+                <field name="sync_date"/>
+                <field name="status"/>
+                <field name="operation_type"/>
+                <field name="model_name"/>
+                <field name="records_processed"/>
+                <field name="records_failed"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mp_field_mapping_tree" model="ir.ui.view">
+        <field name="name">mp.field.mapping.tree</field>
+        <field name="model">mp.field.mapping</field>
+        <field name="arch" type="xml">
+            <list string="Field Mappings">
+                <field name="sequence" widget="handle"/>
+                <field name="odoo_field"/>
+                <field name="external_field"/>
+                <field name="field_type"/>
+                <field name="required"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Actions (must be defined before menu items) -->
+    <record id="action_mp_logistics_operation" model="ir.actions.act_window">
+        <field name="name">Logistics Operations</field>
+        <field name="res_model">mp.logistics.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+    </record>
+
+    <record id="action_mp_spare_part" model="ir.actions.act_window">
+        <field name="name">Spare Parts</field>
+        <field name="res_model">mp.spare.part</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_mp_repair_order" model="ir.actions.act_window">
+        <field name="name">Repair Orders</field>
+        <field name="res_model">mp.repair.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+    </record>
+
+    <record id="action_mp_integration" model="ir.actions.act_window">
+        <field name="name">Integrations</field>
+        <field name="res_model">mp.integration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_mp_integration_log" model="ir.actions.act_window">
+        <field name="name">Integration Logs</field>
+        <field name="res_model">mp.integration.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_mp_region" model="ir.actions.act_window">
+        <field name="name">Regions</field>
+        <field name="res_model">mp.region</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_mp_territory" model="ir.actions.act_window">
+        <field name="name">Territories</field>
+        <field name="res_model">mp.territory</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_mp_root" name="M and P Integration" sequence="100"/>
+    
+    <menuitem id="menu_mp_logistics" name="Logistics" parent="menu_mp_root" sequence="10"/>
+    <menuitem id="menu_mp_logistics_operations" name="Operations" parent="menu_mp_logistics" action="action_mp_logistics_operation" sequence="10"/>
+    <menuitem id="menu_mp_spare_parts" name="Spare Parts" parent="menu_mp_logistics" action="action_mp_spare_part" sequence="20"/>
+    <menuitem id="menu_mp_repair_orders" name="Repair Orders" parent="menu_mp_logistics" action="action_mp_repair_order" sequence="30"/>
+
+    <menuitem id="menu_mp_integration" name="Integration" parent="menu_mp_root" sequence="20"/>
+    <menuitem id="menu_mp_integrations" name="Integrations" parent="menu_mp_integration" action="action_mp_integration" sequence="10"/>
+    <menuitem id="menu_mp_integration_logs" name="Sync Logs" parent="menu_mp_integration" action="action_mp_integration_log" sequence="20"/>
+
+    <menuitem id="menu_mp_configuration" name="Configuration" parent="menu_mp_root" sequence="30"/>
+    <menuitem id="menu_mp_regions" name="Regions" parent="menu_mp_configuration" action="action_mp_region" sequence="10"/>
+    <menuitem id="menu_mp_territories" name="Territories" parent="menu_mp_configuration" action="action_mp_territory" sequence="20"/>
+</odoo>
+

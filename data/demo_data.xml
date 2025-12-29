@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Sequences for M and P module -->
+        <record id="sequence_mp_partner_code" model="ir.sequence">
+            <field name="name">M and P Partner Code</field>
+            <field name="code">mp.partner.code</field>
+            <field name="prefix">MP-P</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <record id="sequence_mp_warehouse_code" model="ir.sequence">
+            <field name="name">M and P Warehouse Code</field>
+            <field name="code">mp.warehouse.code</field>
+            <field name="prefix">MP-WH</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <record id="sequence_mp_logistics_operation" model="ir.sequence">
+            <field name="name">M and P Logistics Operation</field>
+            <field name="code">mp.logistics.operation</field>
+            <field name="prefix">MP-LOG</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <record id="sequence_mp_repair_order" model="ir.sequence">
+            <field name="name">M and P Repair Order</field>
+            <field name="code">mp.repair.order</field>
+            <field name="prefix">MP-REP</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <record id="sequence_mp_tracking_number" model="ir.sequence">
+            <field name="name">M and P Tracking Number</field>
+            <field name="code">mp.tracking.number</field>
+            <field name="prefix"/>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+        </record>
+
+        <!-- Demo Data: Regions -->
+        <record id="demo_region_na" model="mp.region">
+            <field name="name">North America Region</field>
+            <field name="code">NA-001</field>
+            <field name="region_type">dallas</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="demo_region_me" model="mp.region">
+            <field name="name">Middle East Region</field>
+            <field name="code">ME-001</field>
+            <field name="region_type">dubai</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Demo Data: Territories -->
+        <record id="demo_territory_west" model="mp.territory">
+            <field name="name">Western Territory</field>
+            <field name="code">TER-WEST</field>
+            <field name="region_id" ref="demo_region_na"/>
+            <field name="active">True</field>
+        </record>
+
+        <record id="demo_territory_east" model="mp.territory">
+            <field name="name">Eastern Territory</field>
+            <field name="code">TER-EAST</field>
+            <field name="region_id" ref="demo_region_me"/>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Demo Data: Customers -->
+        <record id="demo_customer_1" model="res.partner">
+            <field name="name">Global Distributors Inc.</field>
+            <field name="is_company">True</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="email">contact@globaldistributors.com</field>
+            <field name="phone">+1-555-0101</field>
+            <field name="street">123 Commerce Boulevard</field>
+            <field name="city">New York</field>
+            <field name="zip">10001</field>
+            <field name="country_id" ref="base.us"/>
+            <!-- M&P Fields -->
+            <field name="mp_partner_code">MP-P000001</field>
+            <field name="mp_customer_type">distributor</field>
+            <field name="distribution_channel">wholesale</field>
+            <field name="territory_id" ref="demo_territory_west"/>
+            <field name="region_id" ref="demo_region_na"/>
+            <field name="mp_credit_limit">50000.00</field>
+        </record>
+
+        <record id="demo_customer_2" model="res.partner">
+            <field name="name">Tech Retail Solutions LLC</field>
+            <field name="is_company">True</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="email">sales@techretail.com</field>
+            <field name="phone">+971-4-123-4567</field>
+            <field name="street">456 Business Bay</field>
+            <field name="city">Dubai</field>
+            <field name="zip">00000</field>
+            <field name="country_id" ref="base.ae"/>
+            <!-- M&P Fields -->
+            <field name="mp_partner_code">MP-P000002</field>
+            <field name="mp_customer_type">reseller</field>
+            <field name="distribution_channel">retail</field>
+            <field name="territory_id" ref="demo_territory_east"/>
+            <field name="region_id" ref="demo_region_me"/>
+            <field name="mp_credit_limit">30000.00</field>
+        </record>
+
+        <record id="demo_customer_3" model="res.partner">
+            <field name="name">Premium End User Corp</field>
+            <field name="is_company">True</field>
+            <field name="customer_rank">1</field>
+            <field name="supplier_rank">0</field>
+            <field name="email">info@premiumcorp.com</field>
+            <field name="phone">+1-555-0202</field>
+            <field name="street">789 Enterprise Avenue</field>
+            <field name="city">Los Angeles</field>
+            <field name="zip">90001</field>
+            <field name="country_id" ref="base.us"/>
+            <!-- M&P Fields -->
+            <field name="mp_partner_code">MP-P000003</field>
+            <field name="mp_customer_type">end_customer</field>
+            <field name="distribution_channel">b2b</field>
+            <field name="territory_id" ref="demo_territory_west"/>
+            <field name="region_id" ref="demo_region_na"/>
+            <field name="mp_credit_limit">75000.00</field>
+        </record>
+
+        <!-- Demo Data: Products -->
+        <record id="demo_product_1" model="product.product">
+            <field name="name">Premium Logistics Box - Large</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="categ_id" ref="product.product_category_goods"/>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">True</field>
+            <field name="list_price">150.00</field>
+            <field name="standard_price">100.00</field>
+            <field name="weight">2.5</field>
+            <field name="volume">0.05</field>
+            <field name="description">Large premium shipping box for logistics operations. Dimensions: 50x40x30 cm</field>
+        </record>
+
+        <record id="demo_product_2" model="product.product">
+            <field name="name">Standard Logistics Container</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="categ_id" ref="product.product_category_goods"/>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">True</field>
+            <field name="list_price">85.00</field>
+            <field name="standard_price">60.00</field>
+            <field name="weight">1.8</field>
+            <field name="volume">0.03</field>
+            <field name="description">Standard shipping container for regular logistics operations. Dimensions: 40x30x25 cm</field>
+        </record>
+
+        <record id="demo_product_3" model="product.product">
+            <field name="name">Express Delivery Package</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
+            <field name="categ_id" ref="product.product_category_goods"/>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">True</field>
+            <field name="list_price">200.00</field>
+            <field name="standard_price">140.00</field>
+            <field name="weight">3.2</field>
+            <field name="volume">0.08</field>
+            <field name="description">Express delivery package with premium handling. Dimensions: 60x50x40 cm</field>
+        </record>
+
+        <!-- Note: Stock quantities need to be added via Inventory Adjustments -->
+        <!-- Go to Inventory → Operations → Inventory Adjustments to add stock -->
+
+        <!-- Demo Data: M&P Delivery Product -->
+        <record id="demo_product_delivery_mp" model="product.product">
+            <field name="name">M and P Logistics Delivery Service</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="product.product_category_services"/>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+            <field name="list_price">0.00</field>
+            <field name="standard_price">0.00</field>
+            <field name="description">M and P Logistics delivery service for shipping charges</field>
+        </record>
+
+        <!-- Demo Data: M&P Delivery Carrier -->
+        <record id="demo_delivery_carrier_mp" model="delivery.carrier">
+            <field name="name">M and P Logistics</field>
+            <field name="delivery_type">mp_logistics</field>
+            <field name="product_id" ref="demo_product_delivery_mp"/>
+            <field name="fixed_price">25.00</field>
+            <field name="active">True</field>
+            <field name="sequence">10</field>
+            <!-- M&P Configuration -->
+            <field name="mp_service_type">standard</field>
+            <field name="mp_auto_create_operation">True</field>
+        </record>
+    </data>
+</odoo>

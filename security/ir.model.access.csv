@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mp_integration_user,mp.integration.user,model_mp_integration,base.group_user,1,1,1,1
+access_mp_integration_manager,mp.integration.manager,model_mp_integration,base.group_system,1,1,1,1
+access_mp_integration_log_user,mp.integration.log.user,model_mp_integration_log,base.group_user,1,0,0,0
+access_mp_integration_log_manager,mp.integration.log.manager,model_mp_integration_log,base.group_system,1,1,1,1
+access_mp_field_mapping_user,mp.field.mapping.user,model_mp_field_mapping,base.group_user,1,1,1,1
+access_mp_logistics_operation_user,mp.logistics.operation.user,model_mp_logistics_operation,base.group_user,1,1,1,1
+access_mp_logistics_operation_line_user,mp.logistics.operation.line.user,model_mp_logistics_operation_line,base.group_user,1,1,1,1
+access_mp_spare_part_user,mp.spare.part.user,model_mp_spare_part,base.group_user,1,1,1,1
+access_mp_repair_order_user,mp.repair.order.user,model_mp_repair_order,base.group_user,1,1,1,1
+access_mp_territory_user,mp.territory.user,model_mp_territory,base.group_user,1,1,1,1
+access_mp_region_user,mp.region.user,model_mp_region,base.group_user,1,1,1,1
